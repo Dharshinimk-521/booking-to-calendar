@@ -95,7 +95,7 @@ function parseIRCTCBody(subject, body) {
   );
 
   // ──  DIRECT regex for departure (no extract dependency) ──
-  const departureMatch = body.match(/Scheduled Departure\*?\s*:[\s\S]*?(\d{1,2}-[A-Za-z]{3}-\d{4})\s+(\d{2}:\d{2})/i);
+  const departureMatch = body.match(/Scheduled\s+Departure\*?\s*:\s*\*?\s*(\d{1,2}-[A-Za-z]{3}-\d{4})\s+(\d{2}:\d{2})/i);
   const arrivalMatch   = body.match(/Scheduled Arrival\s*[:\s]+(\d{1,2}-[A-Za-z]{3}-\d{4})\s+(\d{2}:\d{2})/i);
   const journeyMatch   = body.match(/Date of Journey\s*[:\s]+(\d{1,2}-[A-Za-z]{3}-\d{4})/i);
 
@@ -277,6 +277,7 @@ function processForwarded() {
 
       if (!d.eventDate) {
         Logger.log(`Forwarded IRCTC: No date found. Skipping. Snippet: ${body.substring(0, 300)}`);
+        Logger.log(`DEBUG RAW BODY:\n${body}`);
         thread.addLabel(doneLabel);
         return;
       }
